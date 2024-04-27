@@ -7,20 +7,24 @@
 
   <title>Cordell's Bike Map</title>
   <link rel="icon" href="bicycle.png">
-  
+  <link rel="apple-touch-icon" href="bicycle.png">
+  <meta name="apple-mobile-web-app-title" content="BikeMap">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
   <link href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet' />
   <script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
   <script type="text/javascript" src="bikeroutes.json"></script>
   
   <style>
     html, body {
-        height: 101vh;
+        height: 100vh;
         width: 100%;
         margin: 0;
         padding: 0;
     }
     .wrapper {
-        height: 101vh;
+        height: 100vh;
         width: 100%;
     }
     .map-wrapper {
@@ -50,6 +54,7 @@
         let LINE_WIDTH = 8;
         let OPACITY = 0.75;
         // NY MTA
+        let SIDEWALK_BIKELANE = '#6CBE45';
         let PROTECTED_BIKELANE = '#00933C';
         let STANDARD_BIKELANE = '#0039A6';
         let SHARED_BIKELANE = '#FCCC0A';
@@ -78,7 +83,9 @@
                 'filter': [
                     'any', 
                         ['==', ['get', 'ft_facilit'], 'Protected Path'],
-                        ['==', ['get', 'tf_facilit'], 'Protected Path']
+                        ['==', ['get', 'tf_facilit'], 'Protected Path'],
+                        ['==', ['get', 'tf2facilit'], 'Protected Path'],
+                        ['==', ['get', 'ft2facilit'], 'Protected Path']
                     
                 ]
             });
@@ -97,6 +104,22 @@
                         ['==', ['get', 'ft_facilit'], 'Greenway'],
                         ['==', ['get', 'tf_facilit'], 'Greenway']
                     
+                ]
+            });
+
+            map.addLayer({
+                'id': 'sidewalk',
+                'type': 'line',
+                'source': 'bikejson',
+                'paint': {
+                    'line-color': SIDEWALK_BIKELANE,
+                    'line-width': LINE_WIDTH,
+                    'line-opacity': OPACITY
+                },
+                'filter': [
+                    'any',
+                        ['==', ['get', 'ft_facilit'], 'Sidewalk'],
+                        ['==', ['get', 'tf_facilit'], 'Sidewalk']
                 ]
             });
         
@@ -144,14 +167,30 @@
                 'filter': [
                     'any',
                         ['==', ['get', 'ft_facilit'], 'Sharrows'],
-                        ['==', ['get', 'tf_facilit'], 'Sharrows']
+                        ['==', ['get', 'tf_facilit'], 'Sharrows'],
+                        ['==', ['get', 'tf2facilit'], 'Sharrows'],
+                        ['==', ['get', 'ft2facilit'], 'Sharrows']
+                ]   
+            });
+
+            map.addLayer({
+                'id': 'link',
+                'type': 'line',
+                'source': 'bikejson',
+                'paint': {
+                    'line-color': "red",
+                    'line-width': 12,
+                    'line-opacity': OPACITY
+                },
+                'filter': [
+                    'any',
+                        ['==', ['get', 'ft_facilit'], 'Link'],
+                        ['==', ['get', 'tf_facilit'], 'Link'],
                 ]
             });
 
             
-        })
-
-        setTimeout(scrollTo, 0, 0, 1);
+        });
     </script>
 </body>
 </html>
