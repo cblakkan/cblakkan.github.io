@@ -82,6 +82,8 @@
                 })
             );
 
+            map.addControl(new maplibregl.NavigationControl({showCompass: false}));
+
             map.addSource('bikejson', {
                 'type': 'geojson',
                 'data': BIKEJSON
@@ -118,7 +120,9 @@
                 'filter': [
                     'any', 
                         ['==', ['get', 'ft_facilit'], 'Greenway'],
-                        ['==', ['get', 'tf_facilit'], 'Greenway']
+                        ['==', ['get', 'tf_facilit'], 'Greenway'],
+                        ['==', ['get', 'ft_facilit'], 'Boardwalk'],
+                        ['==', ['get', 'tf_facilit'], 'Boardwalk']
                     
                 ]
             });
@@ -194,16 +198,34 @@
                 'type': 'line',
                 'source': 'bikejson',
                 'paint': {
-                    'line-color': "red",
+                    'line-color': "orange",
                     'line-width': 12,
                     'line-opacity': OPACITY
                 },
                 'filter': [
                     'any',
                         ['==', ['get', 'ft_facilit'], 'Link'],
-                        ['==', ['get', 'tf_facilit'], 'Link'],
+                        ['==', ['get', 'tf_facilit'], 'Link']
                 ]
             });            
+
+            map.addLayer({
+                'id': 'garbage',
+                'type': 'line',
+                'source': 'bikejson',
+                'paint': {
+                    'line-color': "red",
+                    'line-width': 4,
+                    'line-opacity': OPACITY
+                },
+                'filter': [
+                    'any',
+                        ['==', ['get', 'ft_facilit'], 'Signed Route'],
+                        ['==', ['get', 'tf_facilit'], 'Signed Route'],
+                        ['==', ['get', 'ft_facilit'], 'Bike-Friendly Parking'],
+                        ['==', ['get', 'tf_facilit'], 'Bike-Friendly Parking'],
+                ]
+            });
         });
 
         function JumpToCurrentLocation(){
