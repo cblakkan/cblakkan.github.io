@@ -227,10 +227,14 @@
                 }
             });
         }
-        window.addEventListener("load", function(){
-            JumpToCurrentLocation();
-            document.getElementById('fly-to-current-location').addEventListener("click", function(){ JumpToCurrentLocation() });
-        });
+        map.addControl(
+        new maplibregl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: true
+        })
+    );
     </script>
 </body>
 </html>
