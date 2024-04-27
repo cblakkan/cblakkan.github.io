@@ -1,82 +1,117 @@
-<script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
-<link href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet' />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cordell's Bike Map</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" href="favicon.png">
+  <link href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet' />
+  <script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
+  <script type="text/javascript" src="bikeroutes.json"></script>
+  <style>
+    html, body {
+        height: 100vh;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .wrapper {
+        height: 100vh;
+        width: 100%;
+    }
+    .map-wrapper {
+        height: 100%;
+        width: 100%;
+    }
+    #map {
+        height: 100%;
+        width: 100%;
+    }
+  </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="map-wrapper">
+            <div id="map"></div>
+        </div>
+    </div>
 
-<div id='map' style='width: 1200px; height: 720px;'></div>
-<script type="text/javascript" src="bikeroutes.json"></script>
-<script>
-var map = new maplibregl.Map({
-  container: 'map',
-  style: 'https://api.maptiler.com/maps/b2512def-9887-424c-8274-dcae4a27558c/style.json?key=PhiQIVhvnvbs5yAOcy6M',
-  center: [-73.97,40.68],
-  zoom: 13
-});
-
-map.on('load', () => {
-    map.addSource('bikejson', {
-        'type': 'geojson',
-        'data': BIKEJSON
-    })
+    <script>
+        var map = new maplibregl.Map({
+          container: 'map',
+          style: 'https://api.maptiler.com/maps/b2512def-9887-424c-8274-dcae4a27558c/style.json?key=PhiQIVhvnvbs5yAOcy6M',
+          center: [-73.97,40.68],
+          zoom: 13
+        });
         
-    map.addLayer({
-        'id': 'protected',
-        'type': 'line',
-        'source': 'bikejson',
-        'paint': {
-            'line-color': "green",
-            'line-width': 5
-        },
-        'filter': [
-            'any', 
-                ['==', ['get', 'ft_facilit'], 'Protected Path'],
-                ['==', ['get', 'tf_facilit'], 'Protected Path']
-            
-        ]
-    });
-
-    map.addLayer({
-        'id': 'greenway',
-        'type': 'line',
-        'source': 'bikejson',
-        'paint': {
-            'line-color': "green",
-            'line-width': 5
-        },
-        'filter': [
-            'any', 
-                ['==', ['get', 'ft_facilit'], 'Greenway'],
-                ['==', ['get', 'tf_facilit'], 'Greenway']
-            
-        ]
-    });
-
-    map.addLayer({
-        'id': 'standards',
-        'type': 'line',
-        'source': 'bikejson',
-        'paint': {
-            'line-color': "blue",
-            'line-width': 5
-        },
-        'filter': [
-            'any',
-                ['==', ['get', 'ft_facilit'], 'Standard'],
-                ['==', ['get', 'tf_facilit'], 'Standard']
-        ]
-    });
-
-    map.addLayer({
-        'id': 'sharrows',
-        'type': 'line',
-        'source': 'bikejson',
-        'paint': {
-            'line-color': "orange",
-            'line-width': 5
-        },
-        'filter': [
-            'any',
-                ['==', ['get', 'ft_facilit'], 'Sharrows'],
-                ['==', ['get', 'tf_facilit'], 'Sharrows']
-        ]
-    });
-})
-</script>
+        map.on('load', () => {
+            map.addSource('bikejson', {
+                'type': 'geojson',
+                'data': BIKEJSON
+            })
+                
+            map.addLayer({
+                'id': 'protected',
+                'type': 'line',
+                'source': 'bikejson',
+                'paint': {
+                    'line-color': "green",
+                    'line-width': 5
+                },
+                'filter': [
+                    'any', 
+                        ['==', ['get', 'ft_facilit'], 'Protected Path'],
+                        ['==', ['get', 'tf_facilit'], 'Protected Path']
+                    
+                ]
+            });
+        
+            map.addLayer({
+                'id': 'greenway',
+                'type': 'line',
+                'source': 'bikejson',
+                'paint': {
+                    'line-color': "green",
+                    'line-width': 5
+                },
+                'filter': [
+                    'any', 
+                        ['==', ['get', 'ft_facilit'], 'Greenway'],
+                        ['==', ['get', 'tf_facilit'], 'Greenway']
+                    
+                ]
+            });
+        
+            map.addLayer({
+                'id': 'standards',
+                'type': 'line',
+                'source': 'bikejson',
+                'paint': {
+                    'line-color': "blue",
+                    'line-width': 5
+                },
+                'filter': [
+                    'any',
+                        ['==', ['get', 'ft_facilit'], 'Standard'],
+                        ['==', ['get', 'tf_facilit'], 'Standard']
+                ]
+            });
+        
+            map.addLayer({
+                'id': 'sharrows',
+                'type': 'line',
+                'source': 'bikejson',
+                'paint': {
+                    'line-color': "orange",
+                    'line-width': 5
+                },
+                'filter': [
+                    'any',
+                        ['==', ['get', 'ft_facilit'], 'Sharrows'],
+                        ['==', ['get', 'tf_facilit'], 'Sharrows']
+                ]
+            });
+        })
+    </script>
+</body>
+</html>
