@@ -53,6 +53,7 @@
         let PROTECTED_BIKELANE = '#00933C';
         let STANDARD_BIKELANE = '#0039A6';
         let SHARED_BIKELANE = '#FCCC0A';
+        let BOGUS = 'purple'
         // 
         // let PROTECTED_BIKELANE = '#38E54D';
         // let STANDARD_BIKELANE = '#2192FF';
@@ -114,6 +115,22 @@
                         ['==', ['get', 'tf_facilit'], 'Standard']
                 ]
             });
+
+            map.addLayer({
+                'id': 'bogus',
+                'type': 'line',
+                'source': 'bikejson',
+                'paint': {
+                    'line-color': STANDARD_BIKELANE,
+                    'line-width': LINE_WIDTH ,
+                    'line-opacity': OPACITY
+                },
+                'filter': [
+                    'any',
+                        ['==', ['get', 'ft_facilit'], 'Curbside'],
+                        ['==', ['get', 'tf_facilit'], 'Curbside']
+                ]
+            });
         
             map.addLayer({
                 'id': 'sharrows',
@@ -130,6 +147,8 @@
                         ['==', ['get', 'tf_facilit'], 'Sharrows']
                 ]
             });
+
+            
         })
 
         var page   = document.getElementById('page'),
