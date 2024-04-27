@@ -47,7 +47,17 @@
           center: [-73.97,40.68],
           zoom: 14
         });
-        let OPACITY = 0.8;
+        let LINE_WIDTH = 8;
+        let OPACITY = 0.75;
+        // NY MTA
+        let PROTECTED_BIKELANE = '#00933C';
+        let STANDARD_BIKELANE = '#0039A6';
+        let SHARED_BIKELANE = '#FCCC0A';
+        // 
+        // let PROTECTED_BIKELANE = '#38E54D';
+        // let STANDARD_BIKELANE = '#2192FF';
+        // let SHARED_BIKELANE = '#FDFF00';
+
         
         map.on('load', () => {
             map.addSource('bikejson', {
@@ -60,8 +70,8 @@
                 'type': 'line',
                 'source': 'bikejson',
                 'paint': {
-                    'line-color': "green",
-                    'line-width': 5,
+                    'line-color': PROTECTED_BIKELANE,
+                    'line-width': LINE_WIDTH ,
                     'line-opacity': OPACITY
                 },
                 'filter': [
@@ -77,8 +87,8 @@
                 'type': 'line',
                 'source': 'bikejson',
                 'paint': {
-                    'line-color': "green",
-                    'line-width': 5,
+                    'line-color': PROTECTED_BIKELANE,
+                    'line-width': LINE_WIDTH ,
                     'line-opacity': OPACITY
                 },
                 'filter': [
@@ -94,8 +104,8 @@
                 'type': 'line',
                 'source': 'bikejson',
                 'paint': {
-                    'line-color': "blue",
-                    'line-width': 5,
+                    'line-color': STANDARD_BIKELANE,
+                    'line-width': LINE_WIDTH ,
                     'line-opacity': OPACITY
                 },
                 'filter': [
@@ -110,8 +120,8 @@
                 'type': 'line',
                 'source': 'bikejson',
                 'paint': {
-                    'line-color': "orange",
-                    'line-width': 5,
+                    'line-color': SHARED_BIKELANE,
+                    'line-width': LINE_WIDTH ,
                     'line-opacity': OPACITY
                 },
                 'filter': [
