@@ -35,10 +35,26 @@
         height: 100%;
         width: 100%;
     }
+    #fly-to-current-location {
+        left: 10px;
+        top: 10px;
+        width: 20px;
+        height: 20px;
+        z-index: 10;
+        background: #dcdcdc;
+        position: absolute;
+        border: 1px;
+        text-align: center;
+        border-color: black;
+        border-style: solid;
+    }
   </style>
 </head>
 <body>
     <div class="wrapper">
+        <div id="fly-to-current-location">
+            ☝
+        </div>
         <div class="map-wrapper">
             <div id="map"></div>
         </div>
@@ -56,7 +72,7 @@
           center: DEFAULT_CENTER,
           maxBounds: MAX_BOUNDS,
           zoom: 14,
-          minZoom: 12,
+          minZoom: 11,
           maxZoom: 16,
           attributionControl: false
         });
@@ -72,7 +88,6 @@
         // let PROTECTED_BIKELANE = '#38E54D';
         // let STANDARD_BIKELANE = '#2192FF';
         // let SHARED_BIKELANE = '#FDFF00';
-
         
         map.on('load', () => {
             map.addSource('bikejson', {
@@ -201,7 +216,7 @@
             
         });
 
-        if ( window.navigator ){
+        function JumpToCurrentLocation(){
             window.navigator.geolocation.getCurrentPosition(function(position){
                 let [minLong, minLat] = MAX_BOUNDS[0];
                 let [maxLong, maxLat] = MAX_BOUNDS[1];
@@ -212,6 +227,10 @@
                 }
             });
         }
+        window.addEventListener("load", function(){
+            JumpToCurrentLocation();
+            document.getElementById('fly-to-current-location').addEventListener("click", function(){ JumpToCurrentLocation() });
+        });
     </script>
 </body>
 </html>
