@@ -45,11 +45,20 @@
     </div>
 
     <script>
+        let DEFAULT_CENTER = [-73.97, 40.68];
+        let MAX_BOUNDS = [
+            [-75.0, 40.0],
+            [-73.0, 41.0]
+        ];
         var map = new maplibregl.Map({
           container: 'map',
           style: 'https://api.maptiler.com/maps/b2512def-9887-424c-8274-dcae4a27558c/style.json?key=PhiQIVhvnvbs5yAOcy6M',
-          center: [-73.97,40.68],
-          zoom: 14
+          center: DEFAULT_CENTER,
+          maxBounds: MAX_BOUNDS,
+          zoom: 14,
+          minZoom: 12,
+          maxZoom: 16,
+          attributionControl: false
         });
         let LINE_WIDTH = 8;
         let OPACITY = 0.75;
@@ -191,6 +200,18 @@
 
             
         });
+
+        if ( window.navigator ){
+            window.navigator.geolocation.getCurrentPosition(function(position){
+                let minLat, minLong = MAX_BOUNDS[0];
+                let maxLat, maxLong = MAX_BOUNDS[1];
+                let inBoundsLat = position.coords.latitude >= minLat && position.coords.latitude <= maxLat;
+                let inBoundsLong = position.coords.longitude >= minLong && position.coords.longitude <= maxLong;
+                if ( inBoundsLat && inBoundsLong ){
+                    map.flyTo({center: [position.coords.latitude, position.coords.longitude]});
+                }
+            });
+        }
     </script>
 </body>
 </html>
