@@ -203,12 +203,12 @@
 
         if ( window.navigator ){
             window.navigator.geolocation.getCurrentPosition(function(position){
-                let minLat, minLong = MAX_BOUNDS[0];
-                let maxLat, maxLong = MAX_BOUNDS[1];
-                let inBoundsLat = position.coords.latitude >= minLat && position.coords.latitude <= maxLat;
-                let inBoundsLong = position.coords.longitude >= minLong && position.coords.longitude <= maxLong;
+                let [minLong, minLat] = MAX_BOUNDS[0];
+                let [maxLong, maxLat] = MAX_BOUNDS[1];
+                let inBoundsLat = minLat <= position.coords.latitude && position.coords.latitude <= maxLat;
+                let inBoundsLong = minLong <= position.coords.longitude && position.coords.longitude <= maxLong;
                 if ( inBoundsLat && inBoundsLong ){
-                    map.flyTo({center: [position.coords.latitude, position.coords.longitude]});
+                    map.flyTo({center: [position.coords.longitude, position.coords.latitude]});
                 }
             });
         }
