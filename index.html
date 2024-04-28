@@ -103,10 +103,10 @@
         <div id="legend-toggle">?</div>
         <div id="legend-content">
             <div class="PROTECTED_BIKELANE">
-                Protected Path, Greenway, Boardwalk
+                Protected Path, Greenway
             </div>
             <div class="SIDEWALK_BIKELANE">
-                Sidewalk
+                Sidewalk, Boardwalk
             </div>
             <div class="STANDARD_BIKELANE">
                 Standard, Curbside
@@ -204,9 +204,7 @@
                 'filter': [
                     'any', 
                         ['==', ['get', 'ft_facilit'], 'Greenway'],
-                        ['==', ['get', 'tf_facilit'], 'Greenway'],
-                        ['==', ['get', 'ft_facilit'], 'Boardwalk'],
-                        ['==', ['get', 'tf_facilit'], 'Boardwalk']
+                        ['==', ['get', 'tf_facilit'], 'Greenway']
                     
                 ]
             });
@@ -228,7 +226,9 @@
                 'filter': [
                     'any',
                         ['==', ['get', 'ft_facilit'], 'Sidewalk'],
-                        ['==', ['get', 'tf_facilit'], 'Sidewalk']
+                        ['==', ['get', 'tf_facilit'], 'Sidewalk'],
+                        ['==', ['get', 'ft_facilit'], 'Boardwalk'],
+                        ['==', ['get', 'tf_facilit'], 'Boardwalk']
                 ]
             });
         
