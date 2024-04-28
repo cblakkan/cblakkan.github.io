@@ -39,6 +39,29 @@
 </head>
 <body>
     <div class="wrapper">
+        <div class="legend" style="display: none;">
+            PROTECTED_BIKELANE
+            Protected Path
+            Greenway
+            Boardwalk
+
+            SIDEWALK_BIKELANE
+            Sidewalk
+
+            STANDARD_BIKELANE
+            Standard
+            Curbside
+
+            SHARED_BIKELANE
+            Sharrows
+            
+            LINK_BIKELANE
+            Link
+            
+            GARBAGE_BIKELANE
+            Signed Route
+            Bike-Friendly Parking
+        </div>
         <div class="map-wrapper">
             <div id="map"></div>
         </div>
@@ -57,6 +80,8 @@
         let PROTECTED_BIKELANE = '#00933C';
         let STANDARD_BIKELANE = '#0039A6';
         let SHARED_BIKELANE = '#FCCC0A';
+        let LINK_BIKELANE = 'orange';
+        let GARBAGE_BIKELANE = 'red';
 
         var map = new maplibregl.Map({
             container: 'map',
@@ -72,7 +97,7 @@
             touchPitch: false
         });
 
-        map.on('load', () => {
+        map.on('load', async () => {
             map.addControl(
                 new maplibregl.GeolocateControl({
                     positionOptions: {
@@ -126,6 +151,11 @@
                     
                 ]
             });
+
+            arrowLeftImage = await map.loadImage('arrow-left.png');
+            arrowRightImage = await map.loadImage('arrow-right.png');
+            map.addImage('arrow-left', arrowLeftImage.data);
+            map.addImage('arrow-right', arrowRightImage.data);
 
             map.addLayer({
                 'id': 'sidewalk',
@@ -214,7 +244,7 @@
                 'type': 'line',
                 'source': 'bikejson',
                 'paint': {
-                    'line-color': "red",
+                    'line-color': GARBAGE_BIKELANE,
                     'line-width': 4,
                     'line-opacity': OPACITY
                 },
@@ -224,6 +254,42 @@
                         ['==', ['get', 'tf_facilit'], 'Signed Route'],
                         ['==', ['get', 'ft_facilit'], 'Bike-Friendly Parking'],
                         ['==', ['get', 'tf_facilit'], 'Bike-Friendly Parking'],
+                ]
+            });
+
+            map.addLayer({
+                'id': 'l-labels',
+                'type': 'symbol',
+                'source': 'bikejson',
+                'layout': {
+                    'icon-image': 'arrow-left',
+                    'icon-size': 0.15,
+                    'icon-rotation-alignment': 'map',
+                    'symbol-placement': 'line-center',
+                    'icon-allow-overlap': true,
+                    // 'icon-overlap': 'cooperative'
+                },
+                'filter': [
+                    'any', 
+                        ['==', ['get', 'bikedir'], 'L'],
+                    
+                ]
+            });
+
+            map.addLayer({
+                'id': 'r-labels',
+                'type': 'symbol',
+                'source': 'bikejson',
+                'layout': {
+                    'icon-image': 'arrow-right',
+                    'icon-size': 0.15,
+                    'icon-rotation-alignment': 'map',
+                    'symbol-placement': 'line-center'
+                },
+                'filter': [
+                    'any', 
+                        ['==', ['get', 'bikedir'], 'R'],
+                    
                 ]
             });
         });
