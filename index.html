@@ -22,6 +22,7 @@
         width: 100%;
         margin: 0;
         padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     }
     .wrapper {
         height: 100vh;
@@ -35,32 +36,90 @@
         height: 100%;
         width: 100%;
     }
+    #legend-toggle {
+        position: absolute;
+        right: 10px;
+        top: 120px;
+        width: 27px;
+        height: 27px;
+        z-index: 100;
+        background: white;
+        border-style: solid;
+        border-width: 1px;
+        border-color: gray;
+        border-radius: 5px;
+        text-align: center;
+        user-select: none;
+        -webkit-user-select: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #legend-toggle:hover {
+        background-color: lightgray;
+    }
+    #legend-content {
+        display: none;
+        position: absolute;
+        left: 25vw;
+        z-index: 10;
+        width: 50vw;
+        top: 25vh;
+        background: white;
+        border-radius: 8px;
+        border: 1px solid gray;
+    }
+    #legend-content div {
+        margin: 5px;
+        padding: 2px;
+        border-radius: 3px;
+        font-weight: bold;
+        text-shadow: 1px 1px 1px black;
+        color: white;
+    }
+    .SIDEWALK_BIKELANE {
+        background-color: #6CBE45;
+    }
+    .PROTECTED_BIKELANE {
+        background-color: #00933C;
+    }
+    .STANDARD_BIKELANE {
+        background-color: #0039A6;
+    }
+    .SHARED_BIKELANE {
+        background-color: #FCCC0A;
+    }
+    .LINK_BIKELANE {
+        background-color: orange;
+    }
+    .GARBAGE_BIKELANE {
+        background-color: red;
+    }
   </style>
 </head>
 <body>
     <div class="wrapper">
-        <div class="legend" style="display: none;">
-            PROTECTED_BIKELANE
-            Protected Path
-            Greenway
-            Boardwalk
-
-            SIDEWALK_BIKELANE
-            Sidewalk
-
-            STANDARD_BIKELANE
-            Standard
-            Curbside
-
-            SHARED_BIKELANE
-            Sharrows
-            
-            LINK_BIKELANE
-            Link
-            
-            GARBAGE_BIKELANE
-            Signed Route
-            Bike-Friendly Parking
+        <div id="legend-toggle">?</div>
+        <div id="legend-content">
+            <div class="PROTECTED_BIKELANE">
+                Protected Path, Greenway, Boardwalk
+            </div>
+            <div class="SIDEWALK_BIKELANE">
+                Sidewalk
+            </div>
+            <div class="STANDARD_BIKELANE">
+                Standard, Curbside
+            </div>
+            <div class="SHARED_BIKELANE">
+                Sharrows
+                </div>
+            <div class="LINK_BIKELANE">
+                Link
+            </div>
+            <div class="GARBAGE_BIKELANE">
+                Signed Route, Bike-Friendly Parking
+            </div>
         </div>
         <div class="map-wrapper">
             <div id="map"></div>
@@ -70,8 +129,8 @@
     <script>
         let DEFAULT_CENTER = [-73.97, 40.68];
         let MAX_BOUNDS = [
-            [-75.0, 40.0],
-            [-73.0, 41.0]
+            [-74.1, 40.53],
+            [-73.6, 40.95]
         ];
         let LINE_WIDTH = 8;
         let OPACITY = 0.75;
@@ -90,7 +149,7 @@
             maxBounds: MAX_BOUNDS,
             zoom: 13,
             minZoom: 11,
-            maxZoom: 16,
+            maxZoom: 17,
             attributionControl: false,
             dragRotate: false,
             pitchWithRotate: false,
@@ -309,6 +368,10 @@
         }
 
         window.addEventListener('load', function(){ JumpToCurrentLocation() });
+        legendContent = document.getElementById('legend-content');
+        document.getElementById('legend-toggle').addEventListener('click', function(event){
+            legendContent.style.display = legendContent.style.display === 'none' ? 'block' : 'none';
+        })
     </script>
 </body>
 </html>
